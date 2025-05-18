@@ -1,4 +1,5 @@
 use serde::{ Deserialize, Serialize };
+use reqwest::Client;
 
 #[derive(Serialize)]
 struct Message {
@@ -23,7 +24,7 @@ pub async fn generate_commit_message(diff: String) -> String {
     let api_key = std::env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY not set");
     let endpoint = std::env::var("OPENAI_API_ENDPOINT").expect("OPENAI_API_ENDPOINT not set");
 
-    let client = reqwest::Client::new();
+    let client = Client::new();
 
     let messages = vec![
         Message {
@@ -51,17 +52,15 @@ pub async fn generate_commit_message(diff: String) -> String {
         .header("Content-Type", "application/json")
         .json(&request_body)
         .send().await
-        .expect("Request to Azure OpenAI failed");
+        .expect("Request to OpenAI failed");
 
     if !res.status().is_success() {
         let status = res.status();
         let text = res.text().await.unwrap_or_default();
-        panic!("Azure OpenAI API error: {} — {}", status, text);
+        panic!("OpenAI API error: {} — {}", status, text);
     }
 
-    let response: ApiResponse = res
-        .json().await
-        .expect("Failed to parse response from Azure OpenAI");
+    let response: ApiResponse = res.json().await.expect("Failed to parse response from OpenAI");
 
     response.choices.first().expect("No response").message.content.clone()
 }

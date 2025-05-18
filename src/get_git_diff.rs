@@ -1,7 +1,7 @@
-use git2::Repository;
+use git2::{ Repository, DiffOptions, DiffFormat };
 
 pub fn get_git_diff(repo: &Repository) -> String {
-    let mut diff_options = git2::DiffOptions::new();
+    let mut diff_options = DiffOptions::new();
     let index = repo.index().expect("Failed to get index");
 
     let diff = repo
@@ -9,7 +9,7 @@ pub fn get_git_diff(repo: &Repository) -> String {
         .expect("Failed to get git diff");
 
     let mut diff_content = String::new();
-    diff.print(git2::DiffFormat::Patch, |_, _, line| {
+    diff.print(DiffFormat::Patch, |_, _, line| {
         diff_content.push_str(std::str::from_utf8(line.content()).unwrap());
         true
     }).expect("Failed to print diff");
