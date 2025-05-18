@@ -22,7 +22,7 @@ struct ApiResponse {
 }
 
 pub async fn generator_commit_msg(diff: String) -> String {
-    let api_key = std::env::var("OPENAI_API_KE").expect("OPENAI_API_KEY not set");
+    let api_key = std::env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY not set");
     let endpoint = std::env::var("OPENAI_API_ENDPOINT").expect("OPENAI_API_ENDPOINT not set");
 
     let client = Client::new();
