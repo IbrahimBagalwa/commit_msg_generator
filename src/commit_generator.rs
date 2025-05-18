@@ -1,5 +1,6 @@
 use reqwest::Client;
 use serde_json::json;
+use serde::{ Deserialize, Serialize };
 
 #[derive(Serialize)]
 struct Message {
@@ -25,7 +26,7 @@ pub async fn generator_commit_msg(diff: String) -> String {
     let endpoint = std::env::var("OPENAI_API_ENDPOINT").expect("OPENAI_API_ENDPOINT not set");
 
     let client = Client::new();
-    let message = vec![
+    let messages = vec![
         Message {
             role: "system".into(),
             content: "You are an assistant that generates concise and descriptive commit messages based on git diff.".into(),
@@ -46,12 +47,12 @@ pub async fn generator_commit_msg(diff: String) -> String {
     });
 
     let res = client
-        .post(endpoint)
+        .post(endpoint.clone())
         .header("api-key", api_key)
         .header("Content-type", "application/json")
         .json(&request_body)
-        .send()
-        .expect(format!("Request to {} failed", endpoint));
+        .send().await
+        .expect(&format!("Request to {} failed", endpoint));
 
     if res.status().is_success() {
         let status = res.status();
