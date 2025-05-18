@@ -56,7 +56,7 @@ msg-suggest --path .
 
 ---
 
-## 🧪 Usage
+## Usage
 
 1. Make changes in your project.
 2. Stage your files:
@@ -91,19 +91,6 @@ Pick your favorite and commit:
 ```bash
 git commit -m "Add user authentication check in login flow"
 ```
-
----
-
-## Technologies
-
-- [Rust](https://www.rust-lang.org/)
-- [Clap](https://docs.rs/clap/latest/clap/)
-- [git2](https://docs.rs/git2/latest/git2/)
-- [tokio](https://tokio.rs/)
-- [dotenv](https://crates.io/crates/dotenv)
-- [OpenAI SDK](https://crates.io/crates/openai)
-
----
 
 ## Contributing
 
