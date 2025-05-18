@@ -28,5 +28,5 @@ async fn main() {
     let diff = get_git_diff::get_git_diff(&repo);
     let commit_message = commit_generator::generate_commit_message(diff).await;
 
-    println!("Suggested Commit Message:\n {}", commit_message);
+    println!("\x1b[32mSuggested Commit Message:\x1b[0m\n\x1b[34m{}\x1b[0m", commit_message);
 }
