@@ -94,8 +94,4 @@ git commit -m "Add user authentication check in login flow"
 
 ## Contributing
 
-1. Fork the repo
-2. Create a new branch (`feature/my-feature`)
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+Feel free to contribute to the project by submitting bug reports, feature requests, or even code enhancements. Fork the repository, make your changes, and submit a pull request. Your contributions are highly appreciated.
