@@ -12,6 +12,7 @@ async fn main() {
         .version("0.0.1")
         .author("Ibrahim Bagalwa, <ibrahim.bagalwa.dev@gmail.com>")
         .about("Suggests commit message based on git diff using AI")
+        .arg_required_else_help(true)
         .arg(
             Arg::new("path")
                 .short('p')
@@ -25,7 +26,7 @@ async fn main() {
     let repo_path = matches.get_one::<String>("path").map(String::as_str).unwrap_or(".");
     let repo = Repository::open(repo_path).expect("Failed to open repository");
     let diff = get_git_diff::get_git_diff(&repo);
-    let commit_message = commit_generator::generator_commit_msg(diff).await;
+    let commit_message = commit_generator::generate_commit_message(diff).await;
 
     println!("Suggested Commit Message:\n {}", commit_message);
 }

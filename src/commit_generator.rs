@@ -1,5 +1,3 @@
-use reqwest::Client;
-use serde_json::json;
 use serde::{ Deserialize, Serialize };
 
 #[derive(Serialize)]
@@ -21,11 +19,12 @@ struct ApiResponse {
     choices: Vec<ResponseChoice>,
 }
 
-pub async fn generator_commit_msg(diff: String) -> String {
+pub async fn generate_commit_message(diff: String) -> String {
     let api_key = std::env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY not set");
     let endpoint = std::env::var("OPENAI_API_ENDPOINT").expect("OPENAI_API_ENDPOINT not set");
 
-    let client = Client::new();
+    let client = reqwest::Client::new();
+
     let messages = vec![
         Message {
             role: "system".into(),
@@ -38,28 +37,31 @@ pub async fn generator_commit_msg(diff: String) -> String {
     ];
 
     let request_body =
-        json!({
-        "messages":messages,
-        "temperature":0.7,
-        "top_p":0.95,
-        "frequency_penalty":0.0,
-        "presence_penalty":0.0
+        serde_json::json!({
+        "messages": messages,
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "frequency_penalty": 0.0,
+        "presence_penalty": 0.0
     });
 
     let res = client
-        .post(endpoint.clone())
+        .post(endpoint)
         .header("api-key", api_key)
-        .header("Content-type", "application/json")
+        .header("Content-Type", "application/json")
         .json(&request_body)
         .send().await
-        .expect(&format!("Request to {} failed", endpoint));
+        .expect("Request to Azure OpenAI failed");
 
-    if res.status().is_success() {
+    if !res.status().is_success() {
         let status = res.status();
         let text = res.text().await.unwrap_or_default();
-        panic!("{} Error: {} - {}", endpoint, status, text);
+        panic!("Azure OpenAI API error: {} — {}", status, text);
     }
 
-    let response: ApiResponse = res.json().await.expect("Failed to parse the response");
+    let response: ApiResponse = res
+        .json().await
+        .expect("Failed to parse response from Azure OpenAI");
+
     response.choices.first().expect("No response").message.content.clone()
 }
