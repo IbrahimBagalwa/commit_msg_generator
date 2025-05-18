@@ -94,7 +94,7 @@ git commit -m "Add user authentication check in login flow"
 
 ---
 
-## 🤓 Technologies
+## Technologies
 
 - [Rust](https://www.rust-lang.org/)
 - [Clap](https://docs.rs/clap/latest/clap/)
@@ -105,31 +105,10 @@ git commit -m "Add user authentication check in login flow"
 
 ---
 
-## 🚀 Roadmap
-
-- [ ] Add interactive message selector
-- [ ] Add language support (EN/FR/AR/...)
-- [ ] Option to customize system prompt
-- [ ] Integration with conventional commits style
-
----
-
-## 👥 Contributing
+## Contributing
 
 1. Fork the repo
 2. Create a new branch (`feature/my-feature`)
 3. Commit your changes
 4. Push to the branch
 5. Open a Pull Request
-
----
-
-## 📄 License
-
-MIT License. See [`LICENSE`](./LICENSE) for details.
-
----
-
-## 🙏 Acknowledgements
-
-Thanks to [OpenAI](https://openai.com) for the GPT models that make this tool possible.
